@@ -1,5 +1,5 @@
-Tournement
-Sex
+Tournement            Tournement Name
+Sex                   Gender of tournement
 Player 1              Name of Player 1
 Player 2              Name of Player 2
 Result                Result of the match (0/1) - Referenced on Player 1 is Result = 1 if Player 1 wins (FNL.1>FNL.2)
