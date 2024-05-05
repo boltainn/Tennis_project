@@ -1,6 +1,11 @@
 #Tennis Project
 getwd()
 ##Data load
+library(ggplot2)
+library(tidyverse)
+library(glmnet)
+
+
 AusOpenMen <- read.csv("tennis_data/AusOpen-men-2013.csv")
 tournement=rep("AusOpen",dim(AusOpenMen)[1])
 gender=rep("M", dim(AusOpenMen)[1])
@@ -44,7 +49,17 @@ write.csv(GrandSlams,file='GrandSlam2013.csv')
 
 summary(GrandSlams)
 
-men_tourn<-GrandSlams[which(GrandSlams$gender=='M'),]
 
-summary(as.factor(men_tourn$Player1))
-summary(as.factor(men_tourn$Player2))
+GrandSlams <- data.frame(lapply(GrandSlams, function(x) {
+  if(is.character(x)) {
+    factor(x)
+  } else {
+    x
+  }
+}))
+
+GrandSlams$Result <- ifelse(GrandSlams$Result==0, 2,1)
+
+GrandSlams$Result <-as.factor(GrandSlams$Result)
+GrandSlams$Round <-as.factor(GrandSlams$Round)
+str(GrandSlams)
