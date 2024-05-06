@@ -1,4 +1,9 @@
 
+## Research questions
+
+#How is change statistics for different tournements and genders.
+#What is the effect of match statistics on result. 
+
 library(ggplot2)
 library(tidyverse)
 
@@ -25,25 +30,122 @@ table(GrandSlam$ROUND)
 table(GrandSlam$RESULT)
 table(GrandSlam$GENDER)
 
+
+rows_with_string <- GrandSlam[grep("Murray", GrandSlam$PLAYER1), ]
 ## Summary for integers
-GrandSlam %>%
-  group_by(RESULT) %>%
-  ggplot(aes(x=ACE.1,y=ACE.2))+
-  geom_boxplot()
 
+ggplot(GrandSlam,aes(y=ACE.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of ACE.1 by Result")
 
-sum(is.na(GrandSlam))
-summary(GrandSlam)
+ggplot(GrandSlam,aes(y=ACE.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of ACE.2 by Result")
 
+ggplot(GrandSlam,aes(y=FSP.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of FSP.1 by Result")
 
-ggplot(GrandSlam,aes(x=ACE.1,y=ACE.2))+
-geom_point()+
-geom_jitter()+
-facet_wrap(~RESULT)
+ggplot(GrandSlam,aes(y=FSP.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of FSP.2 by Result")
+
+ggplot(GrandSlam,aes(y=FSW.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of FSW.1 by Result")
+
+ggplot(GrandSlam,aes(y=FSW.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of FSW.2 by Result")
+
+ggplot(GrandSlam,aes(y=SSP.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of SSP.1 by Result")
+
+ggplot(GrandSlam,aes(y=SSP.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of SSP.2 by Result")
+
+ggplot(GrandSlam,aes(y=SSW.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of SSW.1 by Result")
+
+ggplot(GrandSlam,aes(y=SSW.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of SSW.2 by Result")
+
+ggplot(GrandSlam,aes(y=DBF.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of DBF.1 by Result")
+
+ggplot(GrandSlam,aes(y=DBF.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of DBF.2 by Result")
+
+ggplot(GrandSlam,aes(y=WNR.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of WNR.1 by Result")
+
+ggplot(GrandSlam,aes(y=WNR.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of WNR.2 by Result")
+
+ggplot(GrandSlam,aes(y=BPW.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of BPW.1 by Result")
+
+ggplot(GrandSlam,aes(y=BPW.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of BPW.2 by Result")
+
+ggplot(GrandSlam,aes(y=NPW.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of NPW.1 by Result")
+
+ggplot(GrandSlam,aes(y=NPW.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of NPW.2 by Result")
+
+ggplot(GrandSlam,aes(y=TPW.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of TPW.1 by Result")
+
+ggplot(GrandSlam,aes(y=TPW.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of TPW.2 by Result")
+
+ggplot(GrandSlam,aes(y=UFE.1,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of UFE.1 by Result")
+
+ggplot(GrandSlam,aes(y=UFE.2,fill=RESULT))+
+  geom_boxplot()+
+  theme_bw()+
+  ggtitle("Boxplot of UFE.2 by Result")
 
 ggplot(GrandSlam,aes(x=FNL.1,y=FNL.2))+
   geom_point()+
-  geom_jitter()+
   facet_wrap(~RESULT)
 
 ggplot(GrandSlam,aes(x=FSP.1,y=FSP.2))+
@@ -88,8 +190,8 @@ ggplot(GrandSlam,aes(x=NPA.1,y=NPA.2))+
   geom_point()+
   facet_wrap(~RESULT)
 
-ggplot(GrandSlam,aes(x=NPW.1,y=NPW.2))+
-  geom_point()+
+ggplot(GrandSlam,aes(y=))+
+  geom_boxplot()+
   facet_wrap(~RESULT)
 
 
@@ -97,4 +199,82 @@ ggplot(GrandSlam,aes(x=TPW.1,y=TPW.2))+
   geom_point()+
   facet_wrap(~RESULT)
 
+head(GrandSlam)
+tail(GrandSlam)
+
+GrandSlam <- GrandSlam %>%
+  mutate(TPW=TPW.1+TPW.2,FSW=FSW.1+FSW.2,
+        SSW=SSW.1+SSW.2,ACE=ACE.1+ACE.2,DBF=DBF.1+DBF.2, WNR=WNR.1+WNR.2,
+         UFE=UFE.1+UFE.2, BPC =BPC.1+BPC.2, BPW=BPW.1+BPW.2, NPA=NPA.1+NPA.2,
+         NPW=NPW.1+NPW.2)
+
+ggplot(GrandSlam,aes(y=TPW,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of TPW for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=FSW,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of FSW for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=SSP,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of SSP for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=SSW,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of SSW for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=ACE,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of ACE for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=DBF,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of DBF for each tournement group by gender")
+
+ggplot(GrandSlam,aes(y=WNR,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of WNR for each tournement group by gender")
+
+ggplot(GrandSlam,aes(y=UFE,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of UFE for each tournement group by gender")+
+  theme_bw()
+
+
+ggplot(GrandSlam,aes(y=BPC,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of BPC for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=BPW,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of BPW for each tournement group by gender")+
+  theme_bw()
+
+ggplot(GrandSlam,aes(y=NPA,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of NPA for each tournement group by gender")
+
+ggplot(GrandSlam,aes(y=NPW,fill=TOURNAMENT))+
+  geom_boxplot()+
+  facet_wrap(~GENDER)+
+  ggtitle("Boxplot of NPW for each tournement group by gender")+
+  theme_bw()
 

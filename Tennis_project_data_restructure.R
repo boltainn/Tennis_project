@@ -37,30 +37,8 @@ for(i in 1:8){
   names(list_df[[i]]) = col_names
 }
 
-GrandSlams <- rbind(list_df[[1]],list_df[[2]],list_df[[3]],list_df[[4]],list_df[[5]],list_df[[6]],
+GrandSlam <- rbind(list_df[[1]],list_df[[2]],list_df[[3]],list_df[[4]],list_df[[5]],list_df[[6]],
                     list_df[[7]],list_df[[8]])
 
-write.csv(GrandSlams,file='GrandSlam2013.csv')
+write.csv(GrandSlam,file='GrandSlam2013.csv')
 
-
-summary(GrandSlams)
-
-
-GrandSlams <- data.frame(lapply(GrandSlams, function(x) {
-  if(is.character(x)) {
-    factor(x)
-  } else {
-    x
-  }
-}))
-
-GrandSlams$Result <- ifelse(GrandSlams$Result==0, 2,1)
-
-GrandSlams$Result <-as.factor(GrandSlams$Result)
-GrandSlams$Round <-as.factor(GrandSlams$Round)
-str(GrandSlams)
-
-head(GrandSlams)
-tail(GrandSlams)
-
-sum_grand_slam<-summary(GrandSlams)

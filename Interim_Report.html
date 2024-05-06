@@ -514,68 +514,780 @@ round, 7: Final of the tournament )</td>
 <ol style="list-style-type: decimal">
 <li>Check variables and data types</li>
 </ol>
-<pre><code>## &#39;data.frame&#39;:    943 obs. of  44 variables:
-##  $ Player1   : chr  &quot;Lukas Lacko&quot; &quot;Leonardo Mayer&quot; &quot;Marcos Baghdatis&quot; &quot;Dmitry Tursunov&quot; ...
-##  $ Player2   : chr  &quot;Novak Djokovic&quot; &quot;Albert Montanes&quot; &quot;Denis Istomin&quot; &quot;Michael Russell&quot; ...
-##  $ Round     : int  1 1 1 1 1 1 1 1 1 1 ...
-##  $ Result    : int  0 1 0 1 0 0 0 1 0 1 ...
-##  $ FNL.1     : int  0 3 0 3 1 1 2 2 0 3 ...
-##  $ FNL.2     : int  3 0 3 0 3 3 3 0 3 2 ...
-##  $ FSP.1     : int  61 61 52 53 76 65 68 47 64 77 ...
-##  $ FSW.1     : int  35 31 53 39 63 51 73 18 26 76 ...
-##  $ SSP.1     : int  39 39 48 47 24 35 32 53 36 23 ...
-##  $ SSW.1     : int  18 13 20 24 12 22 24 15 12 11 ...
-##  $ ACE.1     : int  5 13 8 8 0 9 5 3 3 6 ...
-##  $ DBF.1     : int  1 1 4 6 4 3 3 4 NA 4 ...
-##  $ WNR.1     : int  17 13 37 8 16 35 41 21 20 6 ...
-##  $ UFE.1     : int  29 1 50 6 35 41 50 31 39 4 ...
-##  $ BPC.1     : int  1 7 1 6 3 2 9 6 3 7 ...
-##  $ BPW.1     : int  3 14 9 9 12 7 17 20 7 24 ...
-##  $ NPA.1     : int  8 NA 16 NA 9 6 14 6 5 NA ...
-##  $ NPW.1     : int  11 NA 23 NA 13 12 30 9 14 NA ...
-##  $ TPW.1     : int  70 80 106 104 128 108 173 78 67 162 ...
-##  $ ST1.1     : int  3 6 4 6 6 3 6 6 5 3 ...
-##  $ ST2.1     : int  6 6 5 6 4 2 6 6 4 6 ...
-##  $ ST3.1     : int  1 6 4 6 6 6 7 NA 1 3 ...
-##  $ ST4.1     : int  NA NA NA NA 2 6 3 NA NA 6 ...
-##  $ ST5.1     : int  NA NA NA NA NA NA 3 NA NA 6 ...
-##  $ FSP.2     : num  68 60 77 50 53 63 60 54 67 60 ...
-##  $ FSW.2     : int  45 23 57 24 59 60 66 26 42 68 ...
-##  $ SSP.2     : int  32 40 23 50 47 37 40 46 33 40 ...
-##  $ SSW.2     : int  17 9 15 19 32 22 34 13 14 25 ...
-##  $ ACE.2     : int  10 1 9 1 17 24 2 0 12 8 ...
-##  $ DBF.2     : int  0 4 1 8 11 4 6 11 NA 12 ...
-##  $ WNR.2     : int  40 1 41 1 59 47 57 11 32 8 ...
-##  $ UFE.2     : int  30 4 41 8 79 45 72 46 20 12 ...
-##  $ BPC.2     : int  4 0 4 1 3 4 10 2 7 6 ...
-##  $ BPW.2     : int  8 0 13 7 5 7 17 6 10 14 ...
-##  $ NPA.2     : int  8 NA 12 NA 16 14 25 8 8 NA ...
-##  $ NPW.2     : int  9 NA 16 NA 28 17 36 12 11 NA ...
-##  $ TPW.2     : int  101 42 126 79 127 122 173 61 94 141 ...
-##  $ ST1.2     : int  6 1 6 2 1 6 3 3 7 6 ...
-##  $ ST2.2     : int  7 3 7 2 6 6 7 2 6 3 ...
-##  $ ST3.2     : int  6 1 6 3 7 3 6 NA 6 6 ...
-##  $ ST4.2     : int  NA NA NA NA 6 7 6 NA NA 3 ...
-##  $ ST5.2     : int  NA NA NA NA NA NA 6 NA NA 4 ...
-##  $ tournament: chr  &quot;AusOpen&quot; &quot;AusOpen&quot; &quot;AusOpen&quot; &quot;AusOpen&quot; ...
-##  $ gender    : chr  &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; ...</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="5%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Player1</th>
+<th align="left">Player2</th>
+<th align="right">Round</th>
+<th align="right">Result</th>
+<th align="right">FNL.1</th>
+<th align="right">FNL.2</th>
+<th align="right">FSP.1</th>
+<th align="right">FSW.1</th>
+<th align="right">SSP.1</th>
+<th align="right">SSW.1</th>
+<th align="right">ACE.1</th>
+<th align="right">DBF.1</th>
+<th align="right">WNR.1</th>
+<th align="right">UFE.1</th>
+<th align="right">BPC.1</th>
+<th align="right">BPW.1</th>
+<th align="right">NPA.1</th>
+<th align="right">NPW.1</th>
+<th align="right">TPW.1</th>
+<th align="right">ST1.1</th>
+<th align="right">ST2.1</th>
+<th align="right">ST3.1</th>
+<th align="right">ST4.1</th>
+<th align="right">ST5.1</th>
+<th align="right">FSP.2</th>
+<th align="right">FSW.2</th>
+<th align="right">SSP.2</th>
+<th align="right">SSW.2</th>
+<th align="right">ACE.2</th>
+<th align="right">DBF.2</th>
+<th align="right">WNR.2</th>
+<th align="right">UFE.2</th>
+<th align="right">BPC.2</th>
+<th align="right">BPW.2</th>
+<th align="right">NPA.2</th>
+<th align="right">NPW.2</th>
+<th align="right">TPW.2</th>
+<th align="right">ST1.2</th>
+<th align="right">ST2.2</th>
+<th align="right">ST3.2</th>
+<th align="right">ST4.2</th>
+<th align="right">ST5.2</th>
+<th align="left">tournament</th>
+<th align="left">gender</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Lukas Lacko</td>
+<td align="left">Novak Djokovic</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">61</td>
+<td align="right">35</td>
+<td align="right">39</td>
+<td align="right">18</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">17</td>
+<td align="right">29</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">8</td>
+<td align="right">11</td>
+<td align="right">70</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">68</td>
+<td align="right">45</td>
+<td align="right">32</td>
+<td align="right">17</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">40</td>
+<td align="right">30</td>
+<td align="right">4</td>
+<td align="right">8</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">101</td>
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">AusOpen</td>
+<td align="left">M</td>
+</tr>
+<tr class="even">
+<td align="left">Leonardo Mayer</td>
+<td align="left">Albert Montanes</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">61</td>
+<td align="right">31</td>
+<td align="right">39</td>
+<td align="right">13</td>
+<td align="right">13</td>
+<td align="right">1</td>
+<td align="right">13</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">14</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">80</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">60</td>
+<td align="right">23</td>
+<td align="right">40</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">42</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">AusOpen</td>
+<td align="left">M</td>
+</tr>
+<tr class="odd">
+<td align="left">Marcos Baghdatis</td>
+<td align="left">Denis Istomin</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">52</td>
+<td align="right">53</td>
+<td align="right">48</td>
+<td align="right">20</td>
+<td align="right">8</td>
+<td align="right">4</td>
+<td align="right">37</td>
+<td align="right">50</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">16</td>
+<td align="right">23</td>
+<td align="right">106</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">77</td>
+<td align="right">57</td>
+<td align="right">23</td>
+<td align="right">15</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">41</td>
+<td align="right">41</td>
+<td align="right">4</td>
+<td align="right">13</td>
+<td align="right">12</td>
+<td align="right">16</td>
+<td align="right">126</td>
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">AusOpen</td>
+<td align="left">M</td>
+</tr>
+<tr class="even">
+<td align="left">Dmitry Tursunov</td>
+<td align="left">Michael Russell</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">53</td>
+<td align="right">39</td>
+<td align="right">47</td>
+<td align="right">24</td>
+<td align="right">8</td>
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">9</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">104</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">50</td>
+<td align="right">24</td>
+<td align="right">50</td>
+<td align="right">19</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">79</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">AusOpen</td>
+<td align="left">M</td>
+</tr>
+<tr class="odd">
+<td align="left">Juan Monaco</td>
+<td align="left">Ernests Gulbis</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">76</td>
+<td align="right">63</td>
+<td align="right">24</td>
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">16</td>
+<td align="right">35</td>
+<td align="right">3</td>
+<td align="right">12</td>
+<td align="right">9</td>
+<td align="right">13</td>
+<td align="right">128</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+<td align="right">53</td>
+<td align="right">59</td>
+<td align="right">47</td>
+<td align="right">32</td>
+<td align="right">17</td>
+<td align="right">11</td>
+<td align="right">59</td>
+<td align="right">79</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">16</td>
+<td align="right">28</td>
+<td align="right">127</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="left">AusOpen</td>
+<td align="left">M</td>
+</tr>
+<tr class="even">
+<td align="left">Santiago Giraldo</td>
+<td align="left">Sam Querrey</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">65</td>
+<td align="right">51</td>
+<td align="right">35</td>
+<td align="right">22</td>
+<td align="right">9</td>
+<td align="right">3</td>
+<td align="right">35</td>
+<td align="right">41</td>
+<td align="right">2</td>
+<td align="right">7</td>
+<td align="right">6</td>
+<td align="right">12</td>
+<td align="right">108</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">63</td>
+<td align="right">60</td>
+<td align="right">37</td>
+<td align="right">22</td>
+<td align="right">24</td>
+<td align="right">4</td>
+<td align="right">47</td>
+<td align="right">45</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">14</td>
+<td align="right">17</td>
+<td align="right">122</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">3</td>
+<td align="right">7</td>
+<td align="right">NA</td>
+<td align="left">AusOpen</td>
+<td align="left">M</td>
+</tr>
+</tbody>
+</table>
+<table style="width:100%;">
+<colgroup>
+<col width="1%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Player1</th>
+<th align="left">Player2</th>
+<th align="right">Round</th>
+<th align="right">Result</th>
+<th align="right">FNL.1</th>
+<th align="right">FNL.2</th>
+<th align="right">FSP.1</th>
+<th align="right">FSW.1</th>
+<th align="right">SSP.1</th>
+<th align="right">SSW.1</th>
+<th align="right">ACE.1</th>
+<th align="right">DBF.1</th>
+<th align="right">WNR.1</th>
+<th align="right">UFE.1</th>
+<th align="right">BPC.1</th>
+<th align="right">BPW.1</th>
+<th align="right">NPA.1</th>
+<th align="right">NPW.1</th>
+<th align="right">TPW.1</th>
+<th align="right">ST1.1</th>
+<th align="right">ST2.1</th>
+<th align="right">ST3.1</th>
+<th align="right">ST4.1</th>
+<th align="right">ST5.1</th>
+<th align="right">FSP.2</th>
+<th align="right">FSW.2</th>
+<th align="right">SSP.2</th>
+<th align="right">SSW.2</th>
+<th align="right">ACE.2</th>
+<th align="right">DBF.2</th>
+<th align="right">WNR.2</th>
+<th align="right">UFE.2</th>
+<th align="right">BPC.2</th>
+<th align="right">BPW.2</th>
+<th align="right">NPA.2</th>
+<th align="right">NPW.2</th>
+<th align="right">TPW.2</th>
+<th align="right">ST1.2</th>
+<th align="right">ST2.2</th>
+<th align="right">ST3.2</th>
+<th align="right">ST4.2</th>
+<th align="right">ST5.2</th>
+<th align="left">tournament</th>
+<th align="left">gender</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">938</td>
+<td align="left">S.Stephens</td>
+<td align="left">M.Bartoli</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">63</td>
+<td align="right">24</td>
+<td align="right">37</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">21</td>
+<td align="right">19</td>
+<td align="right">8</td>
+<td align="right">4</td>
+<td align="right">10</td>
+<td align="right">8</td>
+<td align="right">NA</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">58</td>
+<td align="right">26</td>
+<td align="right">42</td>
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">12</td>
+<td align="right">12</td>
+<td align="right">6</td>
+<td align="right">10</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Wimbledon</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="left">939</td>
+<td align="left">A.Radwanska</td>
+<td align="left">N.Li</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">77</td>
+<td align="right">52</td>
+<td align="right">23</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">32</td>
+<td align="right">18</td>
+<td align="right">16</td>
+<td align="right">5</td>
+<td align="right">32</td>
+<td align="right">21</td>
+<td align="right">NA</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">77</td>
+<td align="right">57</td>
+<td align="right">23</td>
+<td align="right">13</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">58</td>
+<td align="right">40</td>
+<td align="right">10</td>
+<td align="right">4</td>
+<td align="right">71</td>
+<td align="right">48</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Wimbledon</td>
+<td align="left">F</td>
+</tr>
+<tr class="odd">
+<td align="left">940</td>
+<td align="left">S.Lisicki</td>
+<td align="left">K.Kanepi</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">59</td>
+<td align="right">26</td>
+<td align="right">41</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">23</td>
+<td align="right">19</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">12</td>
+<td align="right">9</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">67</td>
+<td align="right">25</td>
+<td align="right">33</td>
+<td align="right">9</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">13</td>
+<td align="right">23</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">19</td>
+<td align="right">9</td>
+<td align="right">NA</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Wimbledon</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="left">941</td>
+<td align="left">M.Bartoli</td>
+<td align="left">K.Flipkens</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">61</td>
+<td align="right">21</td>
+<td align="right">39</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">23</td>
+<td align="right">10</td>
+<td align="right">7</td>
+<td align="right">5</td>
+<td align="right">11</td>
+<td align="right">11</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">49</td>
+<td align="right">8</td>
+<td align="right">51</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">10</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">21</td>
+<td align="right">8</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Wimbledon</td>
+<td align="left">F</td>
+</tr>
+<tr class="odd">
+<td align="left">942</td>
+<td align="left">S.Lisicki</td>
+<td align="left">A.Radwanska</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">63</td>
+<td align="right">53</td>
+<td align="right">37</td>
+<td align="right">19</td>
+<td align="right">9</td>
+<td align="right">7</td>
+<td align="right">60</td>
+<td align="right">46</td>
+<td align="right">14</td>
+<td align="right">6</td>
+<td align="right">44</td>
+<td align="right">32</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">9</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">70</td>
+<td align="right">42</td>
+<td align="right">30</td>
+<td align="right">15</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">21</td>
+<td align="right">10</td>
+<td align="right">14</td>
+<td align="right">6</td>
+<td align="right">31</td>
+<td align="right">16</td>
+<td align="right">NA</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Wimbledon</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="left">943</td>
+<td align="left">S.Lisicki</td>
+<td align="left">M.Bartoli</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">65</td>
+<td align="right">22</td>
+<td align="right">35</td>
+<td align="right">9</td>
+<td align="right">6</td>
+<td align="right">5</td>
+<td align="right">21</td>
+<td align="right">25</td>
+<td align="right">8</td>
+<td align="right">2</td>
+<td align="right">18</td>
+<td align="right">11</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">67</td>
+<td align="right">31</td>
+<td align="right">33</td>
+<td align="right">7</td>
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">15</td>
+<td align="right">14</td>
+<td align="right">13</td>
+<td align="right">5</td>
+<td align="right">11</td>
+<td align="right">9</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">Wimbledon</td>
+<td align="left">F</td>
+</tr>
+</tbody>
+</table>
 <p>Character values should be factor.</p>
-<pre class="r"><code>GrandSlams &lt;- data.frame(lapply(GrandSlams, function(x) {
-  if(is.character(x)) {
-    factor(x)
-  } else {
-    x
-  }
-}))</code></pre>
-<p>Also ‘Result’ and ‘Round’ should be factor.</p>
-<pre class="r"><code>GrandSlams$Result &lt;-as.factor(GrandSlams$Result)
-GrandSlams$Round &lt;-as.factor(GrandSlams$Round)
-str(GrandSlams)</code></pre>
+<pre class="r"><code>GrandSlam$Result &lt;- ifelse(GrandSlam$Result==0, 2,1)
+
+GrandSlam$Player1 &lt;- factor(GrandSlam$Player1)
+GrandSlam$Player2 &lt;- factor(GrandSlam$Player2)
+GrandSlam$Result &lt;-factor(GrandSlam$Result)
+GrandSlam$Round &lt;-factor(GrandSlam$Round)
+GrandSlam$tournament &lt;-factor(GrandSlam$tournament)
+GrandSlam$gender &lt;-factor(GrandSlam$gender)
+
+colnames(GrandSlam) &lt;- toupper(colnames(GrandSlam))
+
+kable(str(GrandSlam))</code></pre>
 <pre><code>## &#39;data.frame&#39;:    943 obs. of  44 variables:
-##  $ Player1   : Factor w/ 478 levels &quot;A Barty&quot;,&quot;A Cornet&quot;,..: 268 262 299 109 211 409 114 135 104 331 ...
-##  $ Player2   : Factor w/ 472 levels &quot;A Dulgheru&quot;,&quot;A Kerber&quot;,..: 332 34 110 314 133 392 205 37 361 264 ...
-##  $ Round     : Factor w/ 7 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ Result    : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 2 1 2 1 1 1 2 1 2 ...
+##  $ PLAYER1   : Factor w/ 478 levels &quot;A Barty&quot;,&quot;A Cornet&quot;,..: 268 262 299 109 211 409 114 135 104 331 ...
+##  $ PLAYER2   : Factor w/ 472 levels &quot;A Dulgheru&quot;,&quot;A Kerber&quot;,..: 332 34 110 314 133 392 205 37 361 264 ...
+##  $ ROUND     : Factor w/ 7 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ RESULT    : Factor w/ 2 levels &quot;1&quot;,&quot;2&quot;: 2 1 2 1 2 2 2 1 2 1 ...
 ##  $ FNL.1     : int  0 3 0 3 1 1 2 2 0 3 ...
 ##  $ FNL.2     : int  3 0 3 0 3 3 3 0 3 2 ...
 ##  $ FSP.1     : int  61 61 52 53 76 65 68 47 64 77 ...
@@ -596,7 +1308,7 @@ str(GrandSlams)</code></pre>
 ##  $ ST3.1     : int  1 6 4 6 6 6 7 NA 1 3 ...
 ##  $ ST4.1     : int  NA NA NA NA 2 6 3 NA NA 6 ...
 ##  $ ST5.1     : int  NA NA NA NA NA NA 3 NA NA 6 ...
-##  $ FSP.2     : num  68 60 77 50 53 63 60 54 67 60 ...
+##  $ FSP.2     : int  68 60 77 50 53 63 60 54 67 60 ...
 ##  $ FSW.2     : int  45 23 57 24 59 60 66 26 42 68 ...
 ##  $ SSP.2     : int  32 40 23 50 47 37 40 46 33 40 ...
 ##  $ SSW.2     : int  17 9 15 19 32 22 34 13 14 25 ...
@@ -614,97 +1326,9 @@ str(GrandSlams)</code></pre>
 ##  $ ST3.2     : int  6 1 6 3 7 3 6 NA 6 6 ...
 ##  $ ST4.2     : int  NA NA NA NA 6 7 6 NA NA 3 ...
 ##  $ ST5.2     : int  NA NA NA NA NA NA 6 NA NA 4 ...
-##  $ tournament: Factor w/ 4 levels &quot;AusOpen&quot;,&quot;FrenchOpen&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ gender    : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
-<pre class="r"><code>summary(GrandSlams)</code></pre>
-<pre><code>##                 Player1                 Player2    Round   Result 
-##  Rafael Nadal       : 13   David Ferrer     : 16   1:536   0:478  
-##  Novak Djokovic     : 12   Maria Sharapova  : 11   2:197   1:465  
-##  Stanislas Wawrinka : 12   Roger Federer    : 11   3:107          
-##  Serena Williams    : 11   Victoria Azarenka: 10   4: 55          
-##  Agnieszka Radwanska: 10   Kei Nishikori    :  9   5: 27          
-##  Andy Murray        : 10   Ana Ivanovic     :  8   6: 14          
-##  (Other)            :875   (Other)          :878   7:  7          
-##      FNL.1          FNL.2           FSP.1           FSW.1       
-##  Min.   :0.00   Min.   :0.000   Min.   :38.00   Min.   :  3.00  
-##  1st Qu.:0.00   1st Qu.:0.000   1st Qu.:57.00   1st Qu.: 26.00  
-##  Median :2.00   Median :2.000   Median :62.00   Median : 37.00  
-##  Mean   :1.49   Mean   :1.493   Mean   :62.26   Mean   : 38.79  
-##  3rd Qu.:2.00   3rd Qu.:3.000   3rd Qu.:67.00   3rd Qu.: 49.00  
-##  Max.   :3.00   Max.   :3.000   Max.   :86.00   Max.   :109.00  
-##  NA&#39;s   :1      NA&#39;s   :1                                       
-##      SSP.1           SSW.1           ACE.1           DBF.1       
-##  Min.   :14.00   Min.   : 1.00   Min.   : 0.00   Min.   : 0.000  
-##  1st Qu.:33.00   1st Qu.:10.00   1st Qu.: 2.00   1st Qu.: 2.000  
-##  Median :38.00   Median :15.00   Median : 4.00   Median : 3.000  
-##  Mean   :37.79   Mean   :16.73   Mean   : 6.14   Mean   : 3.642  
-##  3rd Qu.:43.00   3rd Qu.:22.00   3rd Qu.: 8.00   3rd Qu.: 5.000  
-##  Max.   :62.00   Max.   :52.00   Max.   :41.00   Max.   :18.000  
-##                                  NA&#39;s   :22      NA&#39;s   :8       
-##      WNR.1            UFE.1           BPC.1            BPW.1       
-##  Min.   :  0.00   Min.   : 0.00   Min.   : 0.000   Min.   : 0.000  
-##  1st Qu.: 16.00   1st Qu.:17.00   1st Qu.: 2.000   1st Qu.: 3.000  
-##  Median : 25.00   Median :26.00   Median : 5.000   Median : 6.000  
-##  Mean   : 27.54   Mean   :27.28   Mean   : 5.311   Mean   : 7.144  
-##  3rd Qu.: 36.00   3rd Qu.:36.00   3rd Qu.: 7.000   3rd Qu.:10.000  
-##  Max.   :111.00   Max.   :89.00   Max.   :25.000   Max.   :28.000  
-##  NA&#39;s   :126      NA&#39;s   :126     NA&#39;s   :1        NA&#39;s   :1       
-##      NPA.1           NPW.1           TPW.1            ST1.1      
-##  Min.   : 0.00   Min.   : 0.00   Min.   :  5.00   Min.   :0.000  
-##  1st Qu.: 7.00   1st Qu.: 8.00   1st Qu.: 67.00   1st Qu.:3.000  
-##  Median :13.00   Median :14.50   Median : 91.00   Median :6.000  
-##  Mean   :15.54   Mean   :17.17   Mean   : 94.28   Mean   :4.801  
-##  3rd Qu.:20.00   3rd Qu.:24.00   3rd Qu.:116.00   3rd Qu.:6.000  
-##  Max.   :96.00   Max.   :63.00   Max.   :231.00   Max.   :7.000  
-##  NA&#39;s   :84      NA&#39;s   :83      NA&#39;s   :312      NA&#39;s   :1      
-##      ST2.1           ST3.1           ST4.1           ST5.1      
-##  Min.   :0.000   Min.   :0.000   Min.   :0.000   Min.   :0.000  
-##  1st Qu.:4.000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:3.000  
-##  Median :6.000   Median :6.000   Median :6.000   Median :5.000  
-##  Mean   :4.781   Mean   :4.728   Mean   :4.787   Mean   :4.651  
-##  3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000  
-##  Max.   :7.000   Max.   :9.000   Max.   :7.000   Max.   :9.000  
-##  NA&#39;s   :4       NA&#39;s   :321     NA&#39;s   :722     NA&#39;s   :857    
-##      FSP.2           FSW.2            SSP.2            SSW.2      
-##  Min.   : 0.00   Min.   :  0.00   Min.   :  7.00   Min.   : 1.00  
-##  1st Qu.:57.00   1st Qu.: 25.00   1st Qu.: 33.00   1st Qu.:10.00  
-##  Median :62.00   Median : 36.00   Median : 38.00   Median :16.00  
-##  Mean   :61.97   Mean   : 38.69   Mean   : 38.05   Mean   :16.93  
-##  3rd Qu.:67.00   3rd Qu.: 48.50   3rd Qu.: 43.50   3rd Qu.:22.00  
-##  Max.   :93.00   Max.   :132.00   Max.   :100.00   Max.   :57.00  
-##                                                                   
-##      ACE.2            DBF.2            WNR.2          UFE.2      
-##  Min.   : 0.000   Min.   : 0.000   Min.   : 0.0   Min.   : 0.00  
-##  1st Qu.: 1.000   1st Qu.: 2.000   1st Qu.:16.0   1st Qu.:16.00  
-##  Median : 4.000   Median : 3.000   Median :26.0   Median :26.00  
-##  Mean   : 5.983   Mean   : 3.772   Mean   :27.8   Mean   :27.68  
-##  3rd Qu.: 9.000   3rd Qu.: 5.000   3rd Qu.:37.0   3rd Qu.:37.00  
-##  Max.   :39.000   Max.   :18.000   Max.   :95.0   Max.   :96.00  
-##  NA&#39;s   :22       NA&#39;s   :8        NA&#39;s   :126    NA&#39;s   :126    
-##      BPC.2            BPW.2            NPA.2           NPW.2      
-##  Min.   : 0.000   Min.   : 0.000   Min.   : 0.00   Min.   : 0.00  
-##  1st Qu.: 2.000   1st Qu.: 3.000   1st Qu.: 8.00   1st Qu.: 8.00  
-##  Median : 5.000   Median : 6.000   Median :13.00   Median :15.00  
-##  Mean   : 5.209   Mean   : 7.096   Mean   :15.94   Mean   :17.59  
-##  3rd Qu.: 7.000   3rd Qu.:10.000   3rd Qu.:21.00   3rd Qu.:24.00  
-##  Max.   :25.000   Max.   :26.000   Max.   :82.00   Max.   :81.00  
-##  NA&#39;s   :1        NA&#39;s   :1        NA&#39;s   :84      NA&#39;s   :83     
-##      TPW.2            ST1.2           ST2.2           ST3.2      
-##  Min.   :  1.00   Min.   :0.000   Min.   :0.000   Min.   :0.000  
-##  1st Qu.: 64.00   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:3.000  
-##  Median : 92.00   Median :6.000   Median :6.000   Median :6.000  
-##  Mean   : 94.52   Mean   :4.816   Mean   :4.695   Mean   :4.823  
-##  3rd Qu.:119.00   3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000  
-##  Max.   :230.00   Max.   :7.000   Max.   :7.000   Max.   :9.000  
-##  NA&#39;s   :312      NA&#39;s   :1       NA&#39;s   :4       NA&#39;s   :321    
-##      ST4.2          ST5.2            tournament  gender 
-##  Min.   :0.00   Min.   :1.000   AusOpen   :253   F:452  
-##  1st Qu.:3.00   1st Qu.:4.000   FrenchOpen:252   M:491  
-##  Median :6.00   Median :6.000   USopen    :202          
-##  Mean   :4.71   Mean   :5.128   Wimbledon :236          
-##  3rd Qu.:6.00   3rd Qu.:6.000                           
-##  Max.   :7.00   Max.   :9.000                           
-##  NA&#39;s   :722    NA&#39;s   :857</code></pre>
+##  $ TOURNAMENT: Factor w/ 4 levels &quot;AusOpen&quot;,&quot;FrenchOpen&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ GENDER    : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
+<p>Also ‘Result’ and ‘Round’ should be factor.</p>
 </div>
 
 

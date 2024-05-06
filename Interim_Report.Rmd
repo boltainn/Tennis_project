@@ -9,9 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r library, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(ggplot2)
+```
 ## 1. Brief Statement of the aim of the project
 
-```{r, include=FALSE}
+```{r combine_DF, include=FALSE}
 AusOpenMen <- read.csv("tennis_data/AusOpen-men-2013.csv")
 AusOpenWoMen <- read.csv("tennis_data/AusOpen-women-2013.csv")
 
@@ -43,20 +48,24 @@ for(i in 1:8){
   names(list_df[[i]]) = col_names
 }
 
-GrandSlams <- rbind(list_df[[1]],list_df[[2]],list_df[[3]],list_df[[4]],list_df[[5]],list_df[[6]],
+GrandSlam <- rbind(list_df[[1]],list_df[[2]],list_df[[3]],list_df[[4]],list_df[[5]],list_df[[6]],
                     list_df[[7]],list_df[[8]])
 
-write.csv(GrandSlams,file='GrandSlam2013.csv')
+write.csv(GrandSlam,file='GrandSlam2013.csv')
 
+rm(list=ls())
 
-summary(GrandSlams)
+GrandSlam <- read.csv('GrandSlam2013.csv',row.names = NULL, header=TRUE)
+GrandSlam <- GrandSlam[,-1]
+
+summary(GrandSlam)
 ```
 
 In this project, data is 2013 4 different tennis singles grand slams match statistics. In the data, there are different statistics about match like foul, number of firs serve win, and others that will be explained in the next part. Aim of the project is predict the result of the tennis match by using different match statistics. Another aim is to find most effective match statistics for the win, and how is change for different tournament and gender. To reach this aim, firstly, data will be cleaned and tidied for the EDA and CDA. Then, explanatory data analysis will be done to see how data distributed and to interpret variables effectively. After EDA, missing values will be handled and data manipulation and feature engineering will be done if it is necessary. After data preparation is done, Confirmatory data analysis will be done. Finally, for statistical modeling to predict match result cross-validation techniques will be done. Finally, statistical modeling will be done and performance of statistical modeling will be investigated.
 
 ## 2. Source of the data variables, dependent variable
 
-Source of the data is [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/300/tennis+major+tournament+match+statistics). In the source of the data, there is 8 different csv file. Each one represent different tournament (Aus Open-Men,AusOpen-Women, USOpen-men,...). Data has 4 different tournament group by gender, so we have 8 different csv file data. All of the 8 csv data has same 42 variables, so all of them are combined to 1 csv file and 2 variable added as tournament and gender. At the end, data has 44 variable. Dependent variable is result. Our data have `r dim(GrandSlams)[1]` match observations.
+Source of the data is [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/300/tennis+major+tournament+match+statistics). In the source of the data, there is 8 different csv file. Each one represent different tournament (Aus Open-Men,AusOpen-Women, USOpen-men,...). Data has 4 different tournament group by gender, so we have 8 different csv file data. All of the 8 csv data has same 42 variables, so all of them are combined to 1 csv file and 2 variable added as tournament and gender. At the end, data has 44 variable. Dependent variable is result. Our data have `r dim(GrandSlam)[1]` match observations.
 
 | Name of Variable | Definition of Variable                                                                             |
 |---------------------|---------------------------------------------------|
@@ -93,26 +102,25 @@ Source of the data is [UC Irvine Machine Learning Repository](https://archive.ic
 1.  Check variables and data types
 
 ```{r echo=FALSE}
-str(GrandSlams)
+kable(head(GrandSlam), label = "Head of the data")
+kable(tail(GrandSlam),label = "Tail of the data")
 ```
 
 Character values should be factor.
 
 ```{r}
-GrandSlams <- data.frame(lapply(GrandSlams, function(x) {
-  if(is.character(x)) {
-    factor(x)
-  } else {
-    x
-  }
-}))
+GrandSlam$Result <- ifelse(GrandSlam$Result==0, 2,1)
+
+GrandSlam$Player1 <- factor(GrandSlam$Player1)
+GrandSlam$Player2 <- factor(GrandSlam$Player2)
+GrandSlam$Result <-factor(GrandSlam$Result)
+GrandSlam$Round <-factor(GrandSlam$Round)
+GrandSlam$tournament <-factor(GrandSlam$tournament)
+GrandSlam$gender <-factor(GrandSlam$gender)
+
+colnames(GrandSlam) <- toupper(colnames(GrandSlam))
+
+kable(str(GrandSlam))
 ```
 
 Also 'Result' and 'Round' should be factor.
-
-```{r}
-GrandSlams$Result <-as.factor(GrandSlams$Result)
-GrandSlams$Round <-as.factor(GrandSlams$Round)
-str(GrandSlams)
-summary(GrandSlams)
-```
