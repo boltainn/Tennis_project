@@ -93,8 +93,9 @@ ggplot(GrandSlam,aes(y=FSW.2,fill=RESULT))+
   theme_bw()+
   ggtitle("Boxplot of FSW.2 by Result")
 
-ggplot(GrandSlam,aes(y=SSP.1,fill=RESULT))+
+ggplot(GrandSlam,aes(y=SSP.1,x=2,fill=RESULT))+
   geom_boxplot()+
+  geom_boxplot(aes(y=SSP.2,x=3))+
   theme_bw()+
   ggtitle("Boxplot of SSP.1 by Result")
 

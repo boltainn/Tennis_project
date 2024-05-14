@@ -1,4 +1,5 @@
 #Tennis Project
+rm(list=ls())
 getwd()
 ##Data load
 library(ggplot2)
@@ -6,17 +7,17 @@ library(tidyverse)
 library(glmnet)
 
 
-AusOpenMen <- read.csv("tennis_data/AusOpen-men-2013.csv")
-AusOpenWoMen <- read.csv("tennis_data/AusOpen-women-2013.csv")
+AusOpenMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/AusOpen-men-2013.csv" ,sep=",")
+AusOpenWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/AusOpen-women-2013.csv")
 
-FrenchOpenMen <- read.csv("tennis_data/FrenchOpen-men-2013.csv")
-FrenchOpenWoMen <- read.csv("tennis_data/FrenchOpen-women-2013.csv")
+FrenchOpenMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/FrenchOpen-men-2013.csv")
+FrenchOpenWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/FrenchOpen-women-2013.csv")
 
-USOpenMen <- read.csv("tennis_data/USOpen-men-2013.csv")
-USOpenWoMen <- read.csv("tennis_data/USOpen-women-2013.csv")
+USOpenMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/USOpen-men-2013.csv")
+USOpenWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/USOpen-women-2013.csv")
 
-WimbledonMen <- read.csv("tennis_data/Wimbledon-men-2013.csv")
-WimbledonWoMen <- read.csv("tennis_data/Wimbledon-women-2013.csv")
+WimbledonMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/Wimbledon-men-2013.csv")
+WimbledonWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/Wimbledon-women-2013.csv")
 
 ##Data Combine
 

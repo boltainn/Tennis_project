@@ -30,8 +30,18 @@ table(GrandSlam$ROUND)
 table(GrandSlam$RESULT)
 table(GrandSlam$GENDER)
 
+table(GrandSlam$TOURNAMENT,GrandSlam$ROUND)
+table(GrandSlam$ROUND)
+table(GrandSlam$RESULT)
+summary(GrandSlam)
+
+head(GrandSlam)
+tail(GrandSlam)
+
 
 rows_with_string <- GrandSlam[grep("Murray", GrandSlam$PLAYER1), ]
+## Summary for integers
+
 ## Summary for integers
 
 ggplot(GrandSlam,aes(y=ACE.1,fill=RESULT))+
@@ -190,10 +200,6 @@ ggplot(GrandSlam,aes(x=NPA.1,y=NPA.2))+
   geom_point()+
   facet_wrap(~RESULT)
 
-ggplot(GrandSlam,aes(y=))+
-  geom_boxplot()+
-  facet_wrap(~RESULT)
-
 
 ggplot(GrandSlam,aes(x=TPW.1,y=TPW.2))+
   geom_point()+
@@ -204,7 +210,7 @@ tail(GrandSlam)
 
 GrandSlam <- GrandSlam %>%
   mutate(TPW=TPW.1+TPW.2,FSW=FSW.1+FSW.2,
-        SSW=SSW.1+SSW.2,ACE=ACE.1+ACE.2,DBF=DBF.1+DBF.2, WNR=WNR.1+WNR.2,
+         SSW=SSW.1+SSW.2,ACE=ACE.1+ACE.2,DBF=DBF.1+DBF.2, WNR=WNR.1+WNR.2,
          UFE=UFE.1+UFE.2, BPC =BPC.1+BPC.2, BPW=BPW.1+BPW.2, NPA=NPA.1+NPA.2,
          NPW=NPW.1+NPW.2)
 
@@ -218,12 +224,6 @@ ggplot(GrandSlam,aes(y=FSW,fill=TOURNAMENT))+
   geom_boxplot()+
   facet_wrap(~GENDER)+
   ggtitle("Boxplot of FSW for each tournement group by gender")+
-  theme_bw()
-
-ggplot(GrandSlam,aes(y=SSP,fill=TOURNAMENT))+
-  geom_boxplot()+
-  facet_wrap(~GENDER)+
-  ggtitle("Boxplot of SSP for each tournement group by gender")+
   theme_bw()
 
 ggplot(GrandSlam,aes(y=SSW,fill=TOURNAMENT))+
@@ -241,12 +241,14 @@ ggplot(GrandSlam,aes(y=ACE,fill=TOURNAMENT))+
 ggplot(GrandSlam,aes(y=DBF,fill=TOURNAMENT))+
   geom_boxplot()+
   facet_wrap(~GENDER)+
-  ggtitle("Boxplot of DBF for each tournement group by gender")
+  ggtitle("Boxplot of DBF for each tournement group by gender")+
+  theme_bw()
 
 ggplot(GrandSlam,aes(y=WNR,fill=TOURNAMENT))+
   geom_boxplot()+
   facet_wrap(~GENDER)+
-  ggtitle("Boxplot of WNR for each tournement group by gender")
+  ggtitle("Boxplot of WNR for each tournement group by gender")+
+  theme_bw()
 
 ggplot(GrandSlam,aes(y=UFE,fill=TOURNAMENT))+
   geom_boxplot()+
@@ -270,11 +272,17 @@ ggplot(GrandSlam,aes(y=BPW,fill=TOURNAMENT))+
 ggplot(GrandSlam,aes(y=NPA,fill=TOURNAMENT))+
   geom_boxplot()+
   facet_wrap(~GENDER)+
-  ggtitle("Boxplot of NPA for each tournement group by gender")
+  ggtitle("Boxplot of NPA for each tournement group by gender")+
+  theme_bw()
 
 ggplot(GrandSlam,aes(y=NPW,fill=TOURNAMENT))+
   geom_boxplot()+
   facet_wrap(~GENDER)+
   ggtitle("Boxplot of NPW for each tournement group by gender")+
   theme_bw()
+
+
+result <- GrandSlam[grepl(" ", GrandSlam$Player1) & !grepl("\\.", GrandSlam$Player1), ]
+
+
 

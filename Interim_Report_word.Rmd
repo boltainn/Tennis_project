@@ -1,0 +1,134 @@
+---
+title: "2013 Grand Slams Tennis Data Interim Report"
+author: "Önder Türe"
+date: "2024-05-04"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r library, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+```
+
+## 1. Brief Statement of the aim of the project
+
+In this project, data is 4 different tennis singles 2013 grand slams match statistics. In the data, there are different statistics about match like foul, number of firs serve win, and others that will be explained in the next part. Aim of the project is predict the result of the tennis match by using different match statistics. Another aim is to find most effective match statistics for the win, and how is change for different tournament and gender. To reach this aim, firstly, data will be cleaned and tidied for the EDA and CDA. Then, explanatory data analysis will be done to see how data distributed and to interpret variables effectively. After EDA, missing values will be handled and data manipulation and feature engineering will be done if it is necessary. After data preparation is done, Confirmatory data analysis will be done by considering EDA. Finally, for statistical modeling to predict match result cross-validation techniques will be used. Finally, statistical modeling will be performed and performance of statistical modeling will be investigated.
+
+## 2. Source of the data variables, dependent variable
+
+```{r combine_DF, include=FALSE}
+## Getting data
+AusOpenMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/AusOpen-men-2013.csv")
+AusOpenWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/AusOpen-women-2013.csv")
+
+FrenchOpenMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/FrenchOpen-men-2013.csv")
+FrenchOpenWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/FrenchOpen-women-2013.csv")
+
+USOpenMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/USOpen-men-2013.csv")
+USOpenWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/USOpen-women-2013.csv")
+
+WimbledonMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/Wimbledon-men-2013.csv")
+WimbledonWoMen <- read.csv("https://raw.githubusercontent.com/boltainn/Tennis_project/main/tennis_data/Wimbledon-women-2013.csv")
+##
+
+##Combine all data and create new variables as "tournament" and "gender"
+
+list_df <- list(AusOpenMen,AusOpenWoMen,FrenchOpenMen,FrenchOpenWoMen,USOpenMen,USOpenWoMen,WimbledonMen,WimbledonWoMen)
+
+tournament_names<-c('AusOpen','AusOpen', 'FrenchOpen', 'FrenchOpen',
+                   'USopen', 'USopen', 'Wimbledon', 'Wimbledon')
+
+gender_name<- c('M','F','M','F','M','F','M','F')
+
+## Adding two new variable
+for(i in 1:8){
+  tournament=rep(tournament_names[i],dim(list_df[[i]])[1])
+  gender=rep(gender_name[i], dim(list_df[[i]])[1])
+  list_df[[i]]$tournament=tournament
+  list_df[[i]]$gender=gender
+}
+
+##Variable name fixing
+col_names <- names(list_df[[3]])
+for(i in 1:8){
+  names(list_df[[i]]) = col_names
+}
+
+##Create combined data
+GrandSlam <- rbind(list_df[[1]],list_df[[2]],list_df[[3]],list_df[[4]],list_df[[5]],list_df[[6]],
+                    list_df[[7]],list_df[[8]])
+## Create new dataset as one .csv file
+write.csv(GrandSlam,file='GrandSlam2013.csv')
+```
+
+Source of the data is [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/300/tennis+major+tournament+match+statistics). In the source of the data, there is 8 different csv file. Each one represent different tournament from 2013 (Aus Open-Men,AusOpen-Women, USOpen-men,...). Data has 4 different tournament group by gender, so we have 8 different csv file data. All of the 8 csv data has same 42 variables, so all of them are combined to 1 csv file and 2 variable added as tournament and gender. At the end, data has 44 variable. Dependent variable is 'Result'. Our data have `r dim(GrandSlam)[1]` match observations.
+
+| Name of Variable | Definition of Variable                                                                             |
+|----------------------|--------------------------------------------------|
+| Player 1         | Name of Player 1 (Nominal)                                                                         |
+| Player 2         | Name of Player 2 (Nominal)                                                                         |
+| Round            | Round of the tourneament (Nominal Ordinal) (1: 1st elimination round, 7: Final of the tournament ) |
+| Result           | Result of the match (0/1) - Referenced on Player 1 is Result = 1 (Nominal)                         |
+| FSP.1 and .2     | First Serve Percentage for player 1 (if .2, player 2) (Integer)                                    |
+| FSW.1 and .2     | First Serve Won by player 1 (if .2, player 2) (Integer)                                            |
+| SSP.1 and .2     | Second Serve Percentage for player 1 (if .2, player 2) (Integer)                                   |
+| SSW.1 and .2     | Second Serve Won by player 1 (if .2, player 2) (Integer)                                           |
+| ACE.1 and .2     | Aces won by player 1 (if .2, player 2) (Integer)                                                   |
+| DBF.1 and .2     | Double Faults committed by player 1 (if .2, player 2) (Integer)                                    |
+| WNR.1 and .2     | Winners earned by player 1 (if .2, player 2) (Integer)                                             |
+| UFE.1 and .2     | Unforced Errors committed by player 1 (if .2, player 2) (Integer)                                  |
+| BPC.1 and .2     | Break Points Created by player 1 (if .2, player 2) (Integer)                                       |
+| BPW.1 and .2     | Break Points Won by player 1 (if .2, player 2) (Integer)                                           |
+| NPA.1 and .2     | Net Points Attempted by player 1 (if .2, player 2) (Integer)                                       |
+| NPW.1 and .2     | Net Points Won by player 1 (if .2, player 2) (Integer)                                             |
+| TPW.1 and .2     | Total Points Won by player 1 (if .2, player 2) (Integer)                                           |
+| ST1.1 and .2     | Set 1 result for Player 1 (if .2, player 2) (Integer)                                              |
+| ST2.1 and .2     | Set 2 Result for Player 1 (if .2, player 2) (Integer)                                              |
+| ST3.1 and .2     | Set 3 Result for Player 1 (if .2, player 2) (Integer)                                              |
+| ST4.1 and .2     | Set 4 Result for Player 1 (if .2, player 2) (Integer)                                              |
+| ST5.1 and .2     | Set 5 Result for Player 1 (if .2, player 2) (Integer)                                              |
+| FNL.1 and .2     | Final Number of Games Won by Player 1 (if .2, player 2) (Integer)                                  |
+| tournament       | Tournament name                                                                                    |
+| gender           | Tournament gender                                                                                  |
+
+: Variable Name and Definition
+
+## 3 Data Cleaning and Tidying
+
+Check variables and data types:
+
+```{r structure}
+kable(str(GrandSlam))
+```
+
+Head and tail of the data
+
+```{r head_tail, echo=FALSE}
+head(GrandSlam)
+tail(GrandSlam)
+```
+
+Character values, "Round" and "Result" should be factor.
+
+```{r factorize, include=FALSE}
+GrandSlam$Result <- ifelse(GrandSlam$Result==0, 2,1)
+
+GrandSlam$Player1 <- factor(GrandSlam$Player1)
+GrandSlam$Player2 <- factor(GrandSlam$Player2)
+GrandSlam$Result <-factor(GrandSlam$Result)
+GrandSlam$Round <-factor(GrandSlam$Round)
+GrandSlam$tournament <-factor(GrandSlam$tournament)
+GrandSlam$gender <-factor(GrandSlam$gender)
+
+colnames(GrandSlam) <- toupper(colnames(GrandSlam))
+
+kable(str(GrandSlam))
+```
+
+Also 'Result' and 'Round' should be factor.
