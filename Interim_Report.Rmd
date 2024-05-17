@@ -15,6 +15,7 @@ library(tidyverse)
 library(ggplot2)
 library(kableExtra)
 library(reshape2)
+library(caret)
 ```
 
 ## 1. Brief Statement of the aim of the project
@@ -64,13 +65,7 @@ for(i in 1:8){
 ##Create combined data
 GrandSlam <- rbind(list_df[[1]],list_df[[2]],list_df[[3]],list_df[[4]],list_df[[5]],list_df[[6]],
                     list_df[[7]],list_df[[8]])
-## Create new dataset as one .csv file
-write.csv(GrandSlam,file='GrandSlam2013.csv')
 
-rm(list=ls())
-
-GrandSlam <- read.csv('GrandSlam2013.csv',row.names = NULL, header=TRUE)
-GrandSlam <- GrandSlam[,-1]
 ```
 
 Source of the data is [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/300/tennis+major+tournament+match+statistics). In the source of the data, there is 8 different csv file. Each one represent different tournament from 2013 (Aus Open-Men,AusOpen-Women, USOpen-men,...). Data has 4 different tournament group by gender, so we have 8 different csv file data. All of the 8 csv data has same 42 variables, so all of them are combined to 1 csv file and 2 variable added as tournament and gender. At the end, data has 44 variable. Dependent variable is 'Result'. Our data have `r dim(GrandSlam)[1]` match observations.
@@ -557,7 +552,7 @@ GrandSlam$NPW.1 <- ifelse(is.na(GrandSlam$NPW.1),Med_ACE1,GrandSlam$NPW.1)
 GrandSlam$NPW.2 <- ifelse(is.na(GrandSlam$NPW.2),Med_ACE1,GrandSlam$NPW.2)
 ```
 
-There are 312 NA values for total points win (TPW) observations. As seen in the bar graphs, when player's TPW is greater than oppenent player, this player wins the match, it is almost like result. Therefore TPW is totaly dependent to result. TPW variable should be removed from data set. 
+There are 312 NA values for total points win (TPW) observations. As seen in the bar graphs, when player's TPW is greater than oppenent player, this player wins the match, it is almost like result. Therefore TPW is totaly dependent to result. TPW variable should be removed from data set.  Similarly FNL is directly give the result, so we should remove FNL variables too.
 
 ```{r NA_10, echo=FALSE, warning=FALSE}
 GrandSlam %>%
@@ -575,7 +570,7 @@ GrandSlam %>%
   theme_bw()  
   
 GrandSlam <- GrandSlam %>%
-  select(-c(TPW.1,TPW.2))
+  select(-c(TPW.1,TPW.2,FNL.1,FNL.2))
 ```
 
 After TPW remove from data set, number of NA values are like below.
@@ -613,10 +608,51 @@ GrandSlam <- GrandSlam %>%
   select(-c(PLAYER1,PLAYER2))
 ```
 
-After missing data cleaning and imputation, we have `r dim(GrandSlam)[1]` observations and `r dim(GrandSlam)[2]` variables.
+After missing data cleaning and imputation, we have `r dim(GrandSlam)[1]` observations and `r dim(GrandSlam)[2]` variables. 
+
+```{r NA_14, echo=FALSE, warning=FALSE}
+summary(GrandSlam)
+```
 
 ## Test-Training Data Spliting
 
+GrandSlam data set splited by 20% test and 80% training by random selection. 
+
+```{r train_test, echo=FALSE, warning=FALSE}
+set.seed(25)
+GrandSlam_idx = sample(nrow(GrandSlam), 653)
+GrandSlam_train = GrandSlam[GrandSlam_idx, ]
+GrandSlam_test = GrandSlam[-GrandSlam_idx, ]
+```
+
+```{r model, echo=FALSE, warning=FALSE}
 
 
+# Setting up cross-validation
+set.seed(25)  # For reproducibility
+train_cntrl <- trainControl(method = "cv", number = 10)
+
+# Train the model
+model <- train(RESULT ~ ., data = GrandSlam_train, method = "svmLinear", trControl = train_cntrl)
+
+
+# Extract the final model
+final_model <- model$finalModel
+
+# Extract the coefficients (weights)
+weights <- colSums(final_model@coef[[1]] * final_model@xmatrix[[1]])
+
+# Extract the intercept
+intercept <- final_model@b
+
+# Print the coefficients and intercept
+print(weights)
+print(intercept)
+
+pretict_grandslam <- predict(model,GrandSlam_test)
+confusionMatrix(pretict_grandslam, GrandSlam_test$RESULT)
+
+# Check the results
+print(model)
+```
 
