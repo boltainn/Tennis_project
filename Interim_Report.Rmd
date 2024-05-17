@@ -270,10 +270,35 @@ for(i in 1:length(GrandSlam$PLAYER1)){
 }
 ```
 
-After fix the problem, all BPC values are greater than BPW.
+There are similar problems with NPA and NPW for Aus open and French Open tournaments, NPA should be greater or equal to NPW. This fixed by exchanging NPA values by NPW and NPW values by NPA when NPW \> NPA.
+
+```{r NPA_NPW_problem, echo=FALSE}
+cond<-which(GrandSlam$NPW.1>GrandSlam$NPA.1)
+head(GrandSlam[cond,c("NPA.1","NPW.1","NPA.2","NPW.2")])
+
+for(i in 1:length(GrandSlam$PLAYER1)){
+  if (!is.na(GrandSlam$NPA.1[i] < GrandSlam$NPW.1[i])){
+    if(GrandSlam$NPA.1[i] < GrandSlam$NPW.1[i]){
+    old_NPA <- GrandSlam$NPA.1[i]
+    old_NPW <- GrandSlam$NPW.1[i]
+    GrandSlam$NPA.1[i] <- old_NPW
+    GrandSlam$NPW.1[i] <- old_NPA
+  }
+  if(GrandSlam$NPA.2[i] < GrandSlam$NPW.2[i]){
+    old_NPA <- GrandSlam$NPA.2[i]
+    old_NPW <- GrandSlam$NPW.2[i]
+    GrandSlam$NPA.2[i] <- old_NPW
+    GrandSlam$NPW.2[i] <- old_NPA
+  }
+  }
+}
+```
+
+After fix the problem, all BPC values are greater than BPW. Same for NPA and NPW.
 
 ```{r BPC_BPW_new, echo=FALSE}
 head(GrandSlam[cond,c("BPC.1","BPW.1","BPC.2","BPW.2")])
+head(GrandSlam[cond,c("NPA.1","NPW.1","NPA.2","NPW.2")])
 ```
 
 ## 4. Explanatory Data Analysis
@@ -433,11 +458,11 @@ GrandSlam <- GrandSlam %>%
          NPW))
 ```
 
-## 5. Missing Observations and Imputation
+## 5. Missing Observation Cleaning, Imputation and Data Manipulation
 
 Firstly, we should find NA values. As we look at the number of NA observations of variables that include NA (below), we can see there are `r sum(is.na(GrandSlam))` NA values
 
-```{r NA_DF, echo=FALSE, warning=FALSE}
+```{r NA_1, echo=FALSE, warning=FALSE}
 na_columns <- GrandSlam %>%
   select_if(~ any(is.na(.)))
 
@@ -454,8 +479,144 @@ GrandSlam <- GrandSlam %>%
   filter(!is.na(FNL.1))
 ```
 
+After removing the row that FNL values NA:
 
 ```{r NA_3, echo=FALSE, warning=FALSE}
-NA_ace <- GrandSlam %>%
-  filter(is.na(ACE.1))
+na_columns <- GrandSlam %>%
+  select_if(~ any(is.na(.)))
+
+colSums(is.na(na_columns))
 ```
+
+There is 22 NA in ACE.1 and ACE.2 columns at same observations, this is MCAR type missing observations, we can fill this values by median value of ACE. Median of ACE.1 and ACE.2 are `r median(na.omit(GrandSlam$ACE.1))` and `r median(na.omit(GrandSlam$ACE.2))`. 
+
+```{r NA_4, echo=FALSE, warning=FALSE}
+GrandSlam %>%
+  filter(is.na(ACE.1))
+
+Med_ACE1 <-median(na.omit(GrandSlam$ACE.1))
+Med_ACE2 <- median(na.omit(GrandSlam$ACE.2))
+GrandSlam$ACE.1 <- ifelse(is.na(GrandSlam$ACE.1),Med_ACE1,GrandSlam$ACE.1)
+GrandSlam$ACE.2 <- ifelse(is.na(GrandSlam$ACE.2),Med_ACE1,GrandSlam$ACE.2)
+```
+
+Similarly DBF NA values are MCAR, we can fill them by median value of DBF.1 and DBF.2. Median of DBF.1 and DBF.2 are `r median(na.omit(GrandSlam$DBF.1))` and `r median(na.omit(GrandSlam$DBF.2))`. 
+
+```{r NA_5, echo=FALSE, warning=FALSE}
+GrandSlam %>%
+  filter(is.na(DBF.1))
+
+Med_DBF1 <-median(na.omit(GrandSlam$DBF.1))
+Med_DBF2 <- median(na.omit(GrandSlam$DBF.2))
+GrandSlam$DBF.1 <- ifelse(is.na(GrandSlam$DBF.1),Med_ACE1,GrandSlam$DBF.1)
+GrandSlam$DBF.2 <- ifelse(is.na(GrandSlam$DBF.2),Med_ACE1,GrandSlam$DBF.2)
+```
+
+UFE and WNR NA observations belong the same rows. Those NA values are in male US Open tournament. There is no UFE and WNR observation for male US open tournament. This Missin at Random mechanism. Rows that has NA UFE and WNR values removed from data set because this variables can be effective to result and removing the column may not be good idea. 
+
+```{r NA_6, echo=FALSE, warning=FALSE}
+GrandSlam %>%
+  filter(is.na(UFE.1))
+
+GrandSlam <- GrandSlam %>%
+  filter(!is.na(UFE.1))
+```
+
+
+```{r NA_7, echo=FALSE, warning=FALSE}
+GrandSlam %>%
+  filter(is.na(UFE.1))
+
+GrandSlam <- GrandSlam %>%
+  filter(!is.na(UFE.1))
+```
+
+After removing NA UFE and WNR values number of NA values are like below.
+
+```{r NA_8, echo=FALSE, warning=FALSE}
+na_columns <- GrandSlam %>%
+  select_if(~ any(is.na(.)))
+
+colSums(is.na(na_columns))
+```
+
+46 and 45 NA values for NPA and NPW are MCAR case because there is no any . Those NA values can be filled by median of NPA and NPW values.
+
+```{r NA_9, echo=FALSE, warning=FALSE}
+GrandSlam %>%
+  filter(is.na(NPA.1))
+
+Med_NPA1 <-median(na.omit(GrandSlam$NPA.1))
+Med_NPA2 <- median(na.omit(GrandSlam$NPA.2))
+GrandSlam$NPA.1 <- ifelse(is.na(GrandSlam$NPA.1),Med_ACE1,GrandSlam$NPA.1)
+GrandSlam$NPA.2 <- ifelse(is.na(GrandSlam$NPA.2),Med_ACE1,GrandSlam$NPA.2)
+
+Med_NPW1 <-median(na.omit(GrandSlam$NPW.1))
+Med_NPW2 <- median(na.omit(GrandSlam$NPW.2))
+GrandSlam$NPW.1 <- ifelse(is.na(GrandSlam$NPW.1),Med_ACE1,GrandSlam$NPW.1)
+GrandSlam$NPW.2 <- ifelse(is.na(GrandSlam$NPW.2),Med_ACE1,GrandSlam$NPW.2)
+```
+
+There are 312 NA values for total points win (TPW) observations. As seen in the bar graphs, when player's TPW is greater than oppenent player, this player wins the match, it is almost like result. Therefore TPW is totaly dependent to result. TPW variable should be removed from data set. 
+
+```{r NA_10, echo=FALSE, warning=FALSE}
+GrandSlam %>%
+  filter(TPW.2>TPW.1)%>%
+  ggplot(aes(x=RESULT,fill = RESULT))+
+  geom_bar()+
+  labs(title = "Results when TPW.2 greater than TPW.1")+
+  theme_bw()
+
+GrandSlam %>%
+  filter(TPW.1>TPW.2)%>%
+  ggplot(aes(x=RESULT,fill = RESULT))+
+  geom_bar()+
+  labs(title = "Results when TPW.1 greater than TPW.2")+
+  theme_bw()  
+  
+GrandSlam <- GrandSlam %>%
+  select(-c(TPW.1,TPW.2))
+```
+
+After TPW remove from data set, number of NA values are like below.
+
+```{r NA_11, echo=FALSE, warning=FALSE}
+na_columns <- GrandSlam %>%
+  select_if(~ any(is.na(.)))
+
+colSums(is.na(na_columns))
+```
+
+Set scores (ST) are similar to TPW, if we know 2 players set score, match result can be known. Therefore ST values should be removed from data set. However, number of total game (TG) variable can be created from sum of all ST values for each row. Number of total game can be use for standardize the match statistics. For example we can find avarage number of ace for 1 game from ACE.1 over number of total game. So, after created TG, all ST values can be removed. FSW, SSW, ACE, DBF, WNR, UFE, BPC, BPW, NPA, NPW variables are divided to TG to standartize match statistics.
+
+```{r NA_12, echo=FALSE, warning=FALSE}
+GrandSlam$TG <- rowSums(GrandSlam[, c("ST1.1", "ST2.1", "ST3.1", "ST4.1","ST5.1",
+                                       "ST1.2", "ST2.2", "ST3.2", "ST4.2","ST5.2")], na.rm = TRUE)
+
+GrandSlam <- GrandSlam %>%
+  select(-c(ST1.1,ST2.1,ST3.1,ST4.1,ST5.1,ST1.2,ST2.2,ST3.2,ST4.2,ST5.2))
+
+GrandSlam <- GrandSlam %>%
+  mutate(FSW.1 = as.numeric(FSW.1/TG), FSW.2 = as.numeric(FSW.2/TG), SSW.1 = as.numeric(SSW.1/TG),
+         SSW.2=as.numeric(SSW.2/TG),ACE.1 = as.numeric(ACE.1/TG), ACE.2 = as.numeric(ACE.2/TG),
+         DBF.1=as.numeric(DBF.1/TG),DBF.2=as.numeric(DBF.2/TG),WNR.1=as.numeric(WNR.1/TG),
+         WNR.2=as.numeric(WNR.2/TG),UFE.1=as.numeric(UFE.1/TG),BPC.1=as.numeric(BPC.1/TG),
+         BPC.2=as.numeric(BPC.2/TG),BPW.1=as.numeric(BPW.1/TG),BPW.2=as.numeric(BPW.2/TG),
+         NPA.1=as.numeric(NPA.1/TG),NPA.2=as.numeric(NPA.2/TG),NPW.1=as.numeric(NPW.1/TG),
+         NPW.2=as.numeric(NPW.2/TG))
+```
+
+There is `r length(unique(c(GrandSlam$PLAYER1,GrandSlam$PLAYER2)))` unique player on this data set. So using players as predictor is not good idea because there are `r length(unique(c(GrandSlam$PLAYER1,GrandSlam$PLAYER2)))` levels, this is not convenient for modeling. Also, our aim in this project is predict result by using player performance like ACE, BPC etc., and show the most important statistics. Because of that PLAYER1 and PLAYER2 columns are removed from data set.
+
+```{r NA_13, echo=FALSE, warning=FALSE}
+GrandSlam <- GrandSlam %>%
+  select(-c(PLAYER1,PLAYER2))
+```
+
+After missing data cleaning and imputation, we have `r dim(GrandSlam)[1]` observations and `r dim(GrandSlam)[2]` variables.
+
+## Test-Training Data Spliting
+
+
+
+
