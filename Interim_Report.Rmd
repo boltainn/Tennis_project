@@ -16,6 +16,9 @@ library(ggplot2)
 library(kableExtra)
 library(reshape2)
 library(caret)
+library(e1071)
+library(glmnet)
+library(corrplot)
 ```
 
 ## 1. Brief Statement of the aim of the project
@@ -296,7 +299,7 @@ head(GrandSlam[cond,c("BPC.1","BPW.1","BPC.2","BPW.2")])
 head(GrandSlam[cond,c("NPA.1","NPW.1","NPA.2","NPW.2")])
 ```
 
-## 4. Explanatory Data Analysis
+## 4. Explanatory Data Analysis(EDA) and Confirmatory Data Analysis(CDA)
 
 ### Summary Statistics
 
@@ -370,6 +373,78 @@ GrandSlam %>%
   theme_bw()
 ```
 
+Hypothesis t-test can be conduct to show avarage BPC or BPW is greater for winning player.
+
+```{r CDA_1, echo=FALSE, warning=FALSE}
+BPC.1.P1win <- GrandSlam %>%
+  filter(RESULT==1) %>%
+  select(BPC.1)
+
+BPC.2.P1win <- GrandSlam %>%
+  filter(RESULT==1) %>%
+  select(BPC.2)
+
+# Perform one-tailed t-test
+t_test_BPC <- t.test(BPC.1.P1win, BPC.2.P1win, alternative = "greater", var.equal = TRUE)
+print(t_test_BPC)
+```
+
+H0 is BPC.1 is equal or less than BPC.2 for RESULT is equals 1. H1 is BPC.1 is greater than BPC.2 for RESULT is equals 1. From t test confidence interval is `r t_test_BPC$conf.int` to infinite. So we can reject null hypothesis. Mean of BPC.1 is greater than mean of BPC.2 for RESULT equals 1. Similarly, mean of BPW.1 is greater than mean of BPW.2 for RESULT equals 1 according to t-test.
+
+```{r CDA_1_, echo=FALSE, warning=FALSE}
+BPC.1.P1win <- GrandSlam %>%
+  filter(RESULT==1) %>%
+  select(BPC.1)
+
+BPC.2.P1win <- GrandSlam %>%
+  filter(RESULT==1) %>%
+  select(BPC.2)
+
+# Perform one-tailed t-test
+t_test_BPC <- t.test(BPC.1.P1win, BPC.2.P1win, alternative = "greater", var.equal = TRUE)
+print(t_test_BPC)
+
+BPW.1.P1win <- GrandSlam %>%
+  filter(RESULT==1) %>%
+  select(BPW.1)
+
+BPW.2.P1win <- GrandSlam %>%
+  filter(RESULT==1) %>%
+  select(BPW.2)
+
+# Perform one-tailed t-test
+t_test_BPW <- t.test(BPW.1.P1win, BPW.2.P1win, alternative = "greater", var.equal = TRUE)
+print(t_test_BPW)
+```
+
+This situation is valid for RESULT equals 2 too.
+
+```{r CDA_1_2, echo=FALSE, warning=FALSE}
+BPC.2.P2win <- GrandSlam %>%
+  filter(RESULT==2) %>%
+  select(BPC.2)
+
+BPC.1.P2win <- GrandSlam %>%
+  filter(RESULT==2) %>%
+  select(BPC.1)
+
+# Perform one-tailed t-test
+t_test_BPC <- t.test(BPC.2.P2win, BPC.1.P2win, alternative = "greater", var.equal = TRUE)
+print(t_test_BPC)
+
+BPW.2.P2win <- GrandSlam %>%
+  filter(RESULT==2) %>%
+  select(BPW.2)
+
+BPW.1.P2win <- GrandSlam %>%
+  filter(RESULT==2) %>%
+  select(BPW.1)
+
+# Perform one-tailed t-test
+t_test_BPW <- t.test(BPW.2.P2win, BPW.1.P2win, alternative = "greater", var.equal = TRUE)
+print(t_test_BPW)
+```
+
 #### How does change distribution of first serve percentage (FSP) and First serve winning (FSW) for winning and losing player?
 
 As seen on the density plot, when player win the match, player's first serve percentage is increase. Therefore, first serve percentage can be effective for winning the match. Similarly, box plot of FSP show that winner player has more FSW than loser one. So, having more FSW can effect the result.
@@ -396,6 +471,45 @@ GrandSlam %>%
   theme_bw()
 ```
 
+For confirmatory data analysis for this reasearch question, two paired t-test can be conduct too. As seen on the t-test result, mean of FSP.1 is changed significantly when result change.
+
+```{r CDA_2, echo=FALSE, warning=FALSE}
+winning_player1 <- GrandSlam[GrandSlam$RESULT == 1, ]
+winning_player2 <- GrandSlam[GrandSlam$RESULT == 2, ]
+
+# Conduct two-sample t-tests for FSP
+fsp1_P1win <- winning_player1$FSP.1
+fsp1_P2win <- winning_player2$FSP.1
+t_test_fsp1 <- t.test(fsp1_P1win, fsp1_P2win,var.equal = TRUE)
+print("Two-sample t-test for First Serve Percentage (FSP.1):")
+print(t_test_fsp1)
+
+# Conduct two-sample t-tests for FSW
+fsw1_P1win <- winning_player1$FSW.1
+fsw1_P2win <- winning_player2$FSW.1
+t_test_fsw1 <- t.test(fsw1_P1win, fsw1_P2win,var.equal = TRUE)
+print("Two-sample t-test for First Serve Winning (FSW.1):")
+print(t_test_fsw1)
+```
+
+t-tests for FSP.2 and FSW.2 are like FSP.1 and FSP.2
+
+```{r CDA_2_2, echo=FALSE, warning=FALSE}
+# Conduct two-sample t-tests for FSP
+fsp2_P1win <- winning_player1$FSP.2
+fsp2_P2win <- winning_player2$FSP.2
+t_test_fsp2 <- t.test(fsp2_P1win, fsp2_P2win,var.equal = TRUE)
+print("Two-sample t-test for First Serve Percentage (FSP.2):")
+print(t_test_fsp2)
+
+# Conduct two-sample t-tests for FSW
+fsw2_P1win <- winning_player1$FSW.2
+fsw2_P2win <- winning_player2$FSW.2
+t_test_fsw2 <- t.test(fsw2_P1win, fsw2_P2win,var.equal = TRUE)
+print("Two-sample t-test for First Serve Winning (FSW.2):")
+print(t_test_fsw2)
+```
+
 #### How does distribution of number of double faul (DBF) and aces (ACE) change for different tournaments grouped by gender?
 
 On this part, ACE variable is created by summing of ACE.1 and ACE.2. Similarly other variables are summing and total of player 1 and player 2 statistic variables are created. Aim of this research is investigating effect of different tournament on player performance. Each tournament have different surface type so this should be effect the match statistics. As seen in the boxplots, at French open tournament, players do less ace than other tounaments. Clay surface (French open surface) can lead to this, because clay surface slow down the ball. Also, in the boxplot of DBF, we can say that players do more double foul at the US and AUS open tournaments. Both tournaments has hard surfaces. Additionally, there is significant diffrence on male and female statistics for ACE, male can do more ACE than womwn according to this graph but number of sets are not same for male and female matches. Female matches are best of 3, but male matches are best of 5. So, this can be reason for that.
@@ -420,6 +534,21 @@ ggplot(GrandSlam,aes(y=DBF,fill=TOURNAMENT))+
   theme_bw()
 ```
 
+With analysis of variance (ANOVA) for DBF and ACE, We can see there are significant difference between tournaments and gender for 0.05 significance level.
+
+```{r CDA_3, echo=FALSE, warning=FALSE}
+# Conduct ANOVA for DBF
+anova_dbf <- aov(DBF ~ TOURNAMENT + GENDER, data = GrandSlam)
+print("ANAVO of DBF")
+summary(anova_dbf)
+
+# Conduct ANOVA for ACE
+anova_ace <- aov(ACE ~ TOURNAMENT + GENDER, data = GrandSlam)
+print("ANAVO of ACE")
+summary(anova_ace)
+```
+
+
 #### Are there differences in the net points attempt (NPA) and net points win (NPW) by players across different rounds of the tournament by result?
 
 NPA and NPW has right skewed distribution for each round except 7th round, but in 7th round we have 8 observation so it can mislead the interpretation of this plot for 7th round. Therefore player NPA and NPW performances are similar for all rounds except 7th.
@@ -436,7 +565,20 @@ ggplot(GrandSlam,aes(y=NPW,x=ROUND,fill = ROUND))+
   theme_bw()
 ```
 
-#### Is there any correlation between number of break points created (BPC), total points win (TPW) and first serve percentage (FSP)?
+Again by using ANOVA, we can show there is significant difference or not in NPW and NPA. As seen in ANOVA, for 0.05 significance level, there is no significant difference between NPA and NPW observations of different rounds.
+
+```{r CDA_4, echo=FALSE, warning=FALSE}
+# Conduct ANOVA for NPA
+anova_NPA <- aov(NPA ~ ROUND, data = GrandSlam)
+print("ANAVO of NPA")
+summary(anova_NPA)
+# Conduct ANOVA for NPW
+anova_NPW <- aov(NPW ~ ROUND, data = GrandSlam)
+print("ANAVO of NPW")
+summary(anova_NPW)
+```
+
+#### Is there any correlation between number of break points created (BPC), total points win (TPW) and first serve win (FSW)?
 
 As seen on bubble plot, whwn BPC increase, TPW increase because when player break the opponent player serve, match can be extend. Also number of first serve win tend to increase when TPW and BPC increase.
 
@@ -445,12 +587,50 @@ ggplot(GrandSlam,aes(x=TPW,y=BPC,size = FSW))+
   geom_point(colour = "purple", alpha = 0.4)+
   labs(title="Scatter plot of TPW vs BPC size by FSW")+
   theme_bw()
+```
+
+For CDA, we can check correlations between BPC, TPW and FSW. As seen on correlation plot, 
+
+```{r CDA_5, echo=FALSE, warning=FALSE}
+
+# Compute Pearson correlation coefficients
+correlation_matrix <- cor(GrandSlam[,c("BPC", "TPW", "FSW")],use = "complete.obs")
+
+# Print correlation matrix
+corrplot(correlation_matrix, method = "number", type = "upper", tl.col = "black", tl.srt = 45)
+```
+
+Also, checking p values of correlation test show that there is significant correlation between BPC, TPW and FSW for 0.05 significance level.
+
+```{r CDA_5_2, echo=FALSE, warning=FALSE}
+#correlation test
+n <- nrow(GrandSlam)
+p_values <- cor.test(GrandSlam$BPC, GrandSlam$TPW, method = "pearson", n = n)$p.value
+p_values <- c(p_values, cor.test(GrandSlam$BPC, GrandSlam$FSW, method = "pearson", n = n)$p.value)
+p_values <- c(p_values, cor.test(GrandSlam$TPW, GrandSlam$FSW, method = "pearson", n = n)$p.value)
+
+# Print p-values
+
+cor_test = c("BPC_TPW","BPC_FSW","TPW_FSW")
+print(data.frame(cor_test,p_values))
 
 GrandSlam <- GrandSlam %>%
   select(-c(TPW,FSW,
         SSW,ACE,DBF, WNR,
          UFE, BPC , BPW, NPA,
          NPW))
+```
+
+#### Is there any relationship between player 1 statistics? And Player 2 too?
+
+```{r EDA_6, echo=FALSE, warning=FALSE}
+# Compute Pearson correlation coefficients
+numereic_var <- GrandSlam %>%
+  select(c(SSP.1,SSW.1,FSP.1,FSW.1))
+correlation_matrix <- cor(numereic_var,use = "complete.obs")
+
+# Print correlation matrix
+corrplot(correlation_matrix, method = "number", type = "upper", tl.col = "black", tl.srt = 45)
 ```
 
 ## 5. Missing Observation Cleaning, Imputation and Data Manipulation
@@ -483,7 +663,7 @@ na_columns <- GrandSlam %>%
 colSums(is.na(na_columns))
 ```
 
-There is 22 NA in ACE.1 and ACE.2 columns at same observations, this is MCAR type missing observations, we can fill this values by median value of ACE. Median of ACE.1 and ACE.2 are `r median(na.omit(GrandSlam$ACE.1))` and `r median(na.omit(GrandSlam$ACE.2))`. 
+There is 22 NA in ACE.1 and ACE.2 columns at same observations, this is MCAR type missing observations, we can fill this values by median value of ACE. Median of ACE.1 and ACE.2 are `r median(na.omit(GrandSlam$ACE.1))` and `r median(na.omit(GrandSlam$ACE.2))`.
 
 ```{r NA_4, echo=FALSE, warning=FALSE}
 GrandSlam %>%
@@ -495,7 +675,7 @@ GrandSlam$ACE.1 <- ifelse(is.na(GrandSlam$ACE.1),Med_ACE1,GrandSlam$ACE.1)
 GrandSlam$ACE.2 <- ifelse(is.na(GrandSlam$ACE.2),Med_ACE1,GrandSlam$ACE.2)
 ```
 
-Similarly DBF NA values are MCAR, we can fill them by median value of DBF.1 and DBF.2. Median of DBF.1 and DBF.2 are `r median(na.omit(GrandSlam$DBF.1))` and `r median(na.omit(GrandSlam$DBF.2))`. 
+Similarly DBF NA values are MCAR, we can fill them by median value of DBF.1 and DBF.2. Median of DBF.1 and DBF.2 are `r median(na.omit(GrandSlam$DBF.1))` and `r median(na.omit(GrandSlam$DBF.2))`.
 
 ```{r NA_5, echo=FALSE, warning=FALSE}
 GrandSlam %>%
@@ -507,7 +687,7 @@ GrandSlam$DBF.1 <- ifelse(is.na(GrandSlam$DBF.1),Med_ACE1,GrandSlam$DBF.1)
 GrandSlam$DBF.2 <- ifelse(is.na(GrandSlam$DBF.2),Med_ACE1,GrandSlam$DBF.2)
 ```
 
-UFE and WNR NA observations belong the same rows. Those NA values are in male US Open tournament. There is no UFE and WNR observation for male US open tournament. This Missin at Random mechanism. Rows that has NA UFE and WNR values removed from data set because this variables can be effective to result and removing the column may not be good idea. 
+UFE and WNR NA observations belong the same rows. Those NA values are in male US Open tournament. There is no UFE and WNR observation for male US open tournament. This Missin at Random mechanism. Rows that has NA UFE and WNR values removed from data set because this variables can be effective to result and removing the column may not be good idea.
 
 ```{r NA_6, echo=FALSE, warning=FALSE}
 GrandSlam %>%
@@ -516,7 +696,6 @@ GrandSlam %>%
 GrandSlam <- GrandSlam %>%
   filter(!is.na(UFE.1))
 ```
-
 
 ```{r NA_7, echo=FALSE, warning=FALSE}
 GrandSlam %>%
@@ -552,7 +731,7 @@ GrandSlam$NPW.1 <- ifelse(is.na(GrandSlam$NPW.1),Med_ACE1,GrandSlam$NPW.1)
 GrandSlam$NPW.2 <- ifelse(is.na(GrandSlam$NPW.2),Med_ACE1,GrandSlam$NPW.2)
 ```
 
-There are 312 NA values for total points win (TPW) observations. As seen in the bar graphs, when player's TPW is greater than oppenent player, this player wins the match, it is almost like result. Therefore TPW is totaly dependent to result. TPW variable should be removed from data set.  Similarly FNL is directly give the result, so we should remove FNL variables too.
+There are 312 NA values for total points win (TPW) observations. As seen in the bar graphs, when player's TPW is greater than oppenent player, this player wins the match, it is almost like result. Therefore TPW is totaly dependent to result. TPW variable should be removed from data set. Similarly FNL is directly give the result, so we should remove FNL variables too.
 
 ```{r NA_10, echo=FALSE, warning=FALSE}
 GrandSlam %>%
@@ -605,54 +784,100 @@ There is `r length(unique(c(GrandSlam$PLAYER1,GrandSlam$PLAYER2)))` unique playe
 
 ```{r NA_13, echo=FALSE, warning=FALSE}
 GrandSlam <- GrandSlam %>%
-  select(-c(PLAYER1,PLAYER2))
+  select(-c(PLAYER1,PLAYER2,TG))
 ```
 
-After missing data cleaning and imputation, we have `r dim(GrandSlam)[1]` observations and `r dim(GrandSlam)[2]` variables. 
+After missing data cleaning and imputation, we have `r dim(GrandSlam)[1]` observations and `r dim(GrandSlam)[2]` variables.
 
 ```{r NA_14, echo=FALSE, warning=FALSE}
 summary(GrandSlam)
 ```
 
-## Test-Training Data Spliting
+## Statistical Modelling
 
-GrandSlam data set splited by 20% test and 80% training by random selection. 
+### Train-Test Data Set Preparation
+
+GrandSlam data set splited by 20% test and 80% training by random selection. Before modelling, numeric variables in the train and test data set should be scaled. Firstly, train set is scaled and then, by using train set mean and standart deviation test set should be scaled too. Test and train sets are scaled after splitting, because, test observations should not be effect anything on the train data set in order to maintain integrity of model evaluation. After scale the train data set summary is like below.
 
 ```{r train_test, echo=FALSE, warning=FALSE}
 set.seed(25)
 GrandSlam_idx = sample(nrow(GrandSlam), 653)
 GrandSlam_train = GrandSlam[GrandSlam_idx, ]
 GrandSlam_test = GrandSlam[-GrandSlam_idx, ]
+
+train_numeric <- GrandSlam_train %>%
+  select_if(is.numeric)
+
+train_other <- GrandSlam_train %>%
+  select(c(ROUND,RESULT,TOURNAMENT,GENDER))
+
+test_numeric <- GrandSlam_test %>%
+  select_if(is.numeric)
+
+test_other <- GrandSlam_test %>%
+  select(c(ROUND,RESULT,TOURNAMENT,GENDER))
+
+# Standardize the training predictors
+train_mean <- apply(train_numeric, 2, mean)
+train_sd <- apply(train_numeric, 2, sd)
+train_numeric_standardized <- scale(train_numeric, center = train_mean, scale = train_sd)
+
+# Standardize the test predictors using training mean and sd
+test_numeric_standardized <- scale(test_numeric, center = train_mean, scale = train_sd)
+
+# Combine standardized predictors with the response variable
+GrandSlam_trn_std <- data.frame(train_numeric_standardized, train_other)
+GrandSlam_tst_std <- data.frame(test_numeric_standardized, test_other)
+
+summary(GrandSlam_trn_std)
 ```
 
-```{r model, echo=FALSE, warning=FALSE}
+### Logistic Regression
 
+```{r logistic, echo=FALSE, warning=FALSE}
+train_control <- trainControl(method = "cv", number = 10, savePredictions = "final")
 
-# Setting up cross-validation
-set.seed(25)  # For reproducibility
-train_cntrl <- trainControl(method = "cv", number = 10)
+log_model <- train(RESULT ~ ., data = GrandSlam_trn_std, method = "glm",family=binomial,
+                      trControl = train_control)
+summary(log_model)
+# Extract the final predictions from the cross-validation
+train_predict<-predict(log_model, newdata = GrandSlam_trn_std)
+Train_pred <- log_model$pred$pred
 
-# Train the model
-model <- train(RESULT ~ ., data = GrandSlam_train, method = "svmLinear", trControl = train_cntrl)
+Test_pred <- predict(log_model, newdata = GrandSlam_tst_std)
+accuracy <- mean(Test_pred == GrandSlam_tst_std$RESULT)
+print(paste("Accuracy:", accuracy))
 
+mod<-log_model$finalModel
+exp(coef(mod))
 
-# Extract the final model
-final_model <- model$finalModel
-
-# Extract the coefficients (weights)
-weights <- colSums(final_model@coef[[1]] * final_model@xmatrix[[1]])
-
-# Extract the intercept
-intercept <- final_model@b
-
-# Print the coefficients and intercept
-print(weights)
-print(intercept)
-
-pretict_grandslam <- predict(model,GrandSlam_test)
-confusionMatrix(pretict_grandslam, GrandSlam_test$RESULT)
-
-# Check the results
-print(model)
+# Create confusion matrix
+conf_matrix <- confusionMatrix(Test_pred, GrandSlam_tst_std$RESULT)
+conf_matrix2 <- confusionMatrix(train_predict, GrandSlam_trn_std$RESULT)
+# Print the confusion matrix
+print(conf_matrix2)
 ```
 
+### Support Vector Machine Modeling
+
+SVM is used to predict the RESULT of the tennis matches on this project. As a cross validation method, k-fold cv is used for k equals 10. This cv is made by using "caret" package in r.
+
+```{r SVM, echo=FALSE, warning=FALSE}
+train_control <- trainControl(method = "cv", number = 10, savePredictions = "final")
+
+svm_model <- train(RESULT ~ ., data = GrandSlam_trn_std, method = "svmLinear",
+                      trControl = train_control, tuneGrid = expand.grid(C = 1))
+
+# Extract the final predictions from the cross-validation
+Train_pred <- svm_model$pred
+
+Test_pred <- predict(svm_model, newdata = GrandSlam_tst_std)
+accuracy <- mean(Test_pred == GrandSlam_tst_std$RESULT)
+print(paste("Accuracy:", accuracy))
+
+# Create confusion matrix
+conf_matrix <- confusionMatrix(Test_pred, GrandSlam_tst_std$RESULT)
+
+# Print the confusion matrix
+print(conf_matrix)
+```
